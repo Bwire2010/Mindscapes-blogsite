@@ -1,5 +1,5 @@
 .post{
-    width: 385px;
+    width: 500px;
     margin: 0px 25px 40px 25px;
 }
 
@@ -40,4 +40,17 @@
     font-size: 13px;
     color: brown;
     margin-top: 10px;
+}
+
+.postDesc{
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14px;
+    color: black;
+    line-height: 24px;
+    margin-top: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
