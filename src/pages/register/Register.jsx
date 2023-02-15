@@ -2,7 +2,7 @@ import "./register.css";
 
 export default function Register() {
   return (
-    <div className="login">
+    <div className="register">
       <span className="registerTitle">Register</span>
       <form className="registerForm">
         <label>Username</label>
