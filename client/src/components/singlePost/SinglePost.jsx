@@ -1,29 +1,45 @@
 import "./singlePost.css"
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function SinglePost() {
+  const location = useLocation()
+  const path = location.pathname.split("/")[2];
+  const [post, setPost] = useState({})
+
+  useEffect(()=>{
+    const getPost = async ()=>{
+      const res = await axios.get("/posts/"+path);
+      setPost(res.data)
+    }
+    getPost()
+  },[path])
+
   return (
     <div className="singlepost">
       <div className="singlePostWrapper">
+        {post.photo && (
         <img 
-          src="https://images.pexels.com/photos/248547/pexels-photo-248547.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+          src={post.photo} 
           alt=""
           className="singlePostImg"
         />
+        )}
         <h1 className="singlePostTitle"> 
-        Neque porro quisquam est 
+        {post.title}
         <div className="singlePostEdit">
         <i className="singlePostIcon fa-regular fa-pen-to-square"></i>
         <i className="singlePostIcon fa-solid fa-trash-can"></i>
         </div>
         </h1>
         <div className="singlePostInfo">
-          <span className="singlePostAuthor"> Author: <b> Patrobas</b></span>
-          <span className="singlePostDate"> 1 hr ago</span>
+          <span className="singlePostAuthor"> Author: <b> {post.username}</b></span>
+          <span className="singlePostDate"> {new Date(post.createdAt).toDateString()}</span>
         </div>
         <p className="singlePostDesc">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi eveniet dolores sit. Ea mollitia iusto nostrum illo dolores. Quia voluptatem placeat laborum omnis ipsa et nesciunt praesentium sapiente neque delectus!
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates sunt explicabo perferendis id error quaerat libero iste quisquam placeat inventore, doloremque distinctio. Dicta temporibus quis rerum laboriosam at exercitationem esse.
-       </p>
+          {post.desc}
+        </p>
       </div>  
     </div>
   )
