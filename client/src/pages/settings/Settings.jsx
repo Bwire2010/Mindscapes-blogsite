@@ -79,7 +79,7 @@ export default function Settings() {
             Update
           </button>
           {success && (
-            <span stlye={{ color: "green", textAlign: "center" }}>
+            <span   style={{ color: "green", textAlign: "center", marginTop: "20px" }}>
               profile has been updated....
             </span>
           )}
