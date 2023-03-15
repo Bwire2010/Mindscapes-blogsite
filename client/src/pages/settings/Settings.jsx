@@ -11,10 +11,12 @@ export default function Settings() {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const { user } = useContext(Context);
+  const { user, dispatch } = useContext(Context);
+  const PF = "http://localhost:5000/images/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch({ type: "UPDATE_START" });
     const updatedUser = {
       userId: user._id,
       username,
@@ -32,9 +34,12 @@ export default function Settings() {
       } catch (err) {}
     }
     try {
-      await axios.put("/users/" + user._id, updatedUser);
+      const res = await axios.put("/users/" + user._id, updatedUser);
       setSuccess(true);
-    } catch (err) {}
+      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+    } catch (err) {
+      dispatch({ type: "UPDATE_FAILURE" });
+    }
   };
 
   return (
@@ -47,7 +52,10 @@ export default function Settings() {
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label> Profile Picture</label>
           <div className="settingsPP">
-            <img src={user.profilePic} alt="" />
+            <img
+              src={file ? URL.createObjectURL(file) : PF + user.profilePic}
+              alt=""
+            />
             <label htmlFor="fileinput">
               <i className=" settingsPPIcon fa-solid fa-user"></i>
             </label>
@@ -79,7 +87,9 @@ export default function Settings() {
             Update
           </button>
           {success && (
-            <span   style={{ color: "green", textAlign: "center", marginTop: "20px" }}>
+            <span
+              style={{ color: "green", textAlign: "center", marginTop: "20px" }}
+            >
               profile has been updated....
             </span>
           )}
